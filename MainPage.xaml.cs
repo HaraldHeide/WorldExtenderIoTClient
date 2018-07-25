@@ -25,6 +25,8 @@ namespace SmartDevice
 
         private WebApiClient webApiClient = new WebApiClient();
 
+        const float seaLevelPressure = 1013.25f;
+
         public MainPage()
         {
             InitializeComponent();
@@ -69,7 +71,7 @@ namespace SmartDevice
 
             await Task.WhenAll(bme280Sensor.Initialize());
 
-            GpioStatus.Text = "Connecting to IoT Hub...";
+            GpioStatus.Text = "Connecting to WebAPI...";
 
             //await IoTHub.ConnectToIoTHub();  //hhe
             //RunAsync().GetAwaiter().GetResult();
@@ -89,6 +91,7 @@ namespace SmartDevice
             double temperature = await bme280Sensor.ReadTemperature();
             double humidity = await bme280Sensor.ReadHumidity();
             double pressure = await bme280Sensor.ReadPressure();
+            float altitude = await bme280Sensor.ReadAltitude(seaLevelPressure);
             // convert to Fahrenheit
             //double fahrenheitTemperature = temperature * 1.8 + 32.0; // hhe
 
@@ -96,11 +99,18 @@ namespace SmartDevice
             //int proximity = vncl4010Sensor.ReadProximity(); //hhe
 
             //TemperatureStatus.Text = "The temperature is currently " + fahrenheitTemperature.ToString("n1") + "°F"; //hhe
+            Location.Text = webApiClient.device.Location;
+            DeviceName.Text = webApiClient.device.Name;
+            X.Text = webApiClient.device.X;
+            Y.Text = webApiClient.device.Y;
+            Z.Text = webApiClient.device.Z;
+
             TemperatureStatus.Text = "The temperature is currently " + temperature.ToString("n1") + "°C";
             HumidityStatus.Text = "The humidity is currently " + humidity.ToString("n1") + "%";
             PressureStatus.Text = "The pressure is currently " + pressure.ToString("n1") + "";
+            Altitude.Text = "The altitude is currently " + altitude.ToString("n1") + " meters";
 
-            await webApiClient.PutDevice(temperature,humidity,pressure);
+            await webApiClient.PutDevice(X.Text, Y.Text, Z.Text, temperature,humidity,pressure);
         }
         #endregion
     }

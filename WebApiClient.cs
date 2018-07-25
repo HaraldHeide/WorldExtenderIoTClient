@@ -32,7 +32,9 @@ namespace SmartDevice
         private string DeviceId = "";
         private HttpClient client = new HttpClient();
 
-        private Device device;
+        public Device device;
+
+        // Called initially when program starts
         public async Task PostDevice()
         {
             // Update port # in the following line.
@@ -46,9 +48,9 @@ namespace SmartDevice
                 {
                     Location = "Office",
                     Name = "IoT01",
-                    X = "0.0",
+                    X = "-1.0",
                     Y = "0.0",
-                    Z = "0.0",
+                    Z = "2.0",
                     Type = "BME820",
                     Temperature = "0.0",
                     Humidity = "0.0",
@@ -71,7 +73,8 @@ namespace SmartDevice
             }
         }
 
-        public async Task PutDevice(double temperature, double humidity, double pressure)
+        //Called each TimerTick
+        public async Task PutDevice(string X, string Y, string Z, double temperature, double humidity, double pressure)
         {
             if(UrlDevice_PathAndQuery == "")
             {
@@ -79,6 +82,9 @@ namespace SmartDevice
             }
             device = await GetDeviceAsync(UrlDevice_PathAndQuery);
 
+            //device.X = X;
+            //device.Y = Y;
+            //device.Z = Z;
             device.Temperature = temperature.ToString("n1");
             device.Humidity = humidity.ToString("n1");
             device.Pressure = pressure.ToString("n1");
