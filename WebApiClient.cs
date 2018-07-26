@@ -38,7 +38,7 @@ namespace SmartDevice
         public async Task PostDevice()
         {
             // Update port # in the following line.
-            client.BaseAddress = new Uri("http://192.168.0.2/");
+            client.BaseAddress = new Uri("http://192.168.0.3/");
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -48,9 +48,9 @@ namespace SmartDevice
                 {
                     Location = "Office",
                     Name = "IoT01",
-                    X = "-1.0",
-                    Y = "0.0",
-                    Z = "2.0",
+                    X = "1.0",
+                    Y = "-0.5",
+                    Z = "0.5",
                     Type = "BME820",
                     Temperature = "0.0",
                     Humidity = "0.0",

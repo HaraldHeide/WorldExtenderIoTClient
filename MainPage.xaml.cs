@@ -25,7 +25,8 @@ namespace SmartDevice
 
         private WebApiClient webApiClient = new WebApiClient();
 
-        const float seaLevelPressure = 1013.25f;
+        //const float seaLevelPressure = 1013.25f;  //hectopascal
+        const float seaLevelPressure =1018.50f;
 
         public MainPage()
         {
